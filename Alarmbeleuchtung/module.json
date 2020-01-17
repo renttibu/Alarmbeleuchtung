@@ -1,0 +1,14 @@
+{
+  "id": "{9C804D2B-54AF-690E-EC36-31BF41690EBA}",
+  "name": "Alarmbeleuchtung",
+  "type": 3,
+  "vendor": "NTUB",
+  "aliases": [
+    "Alarmbeleuchtung"
+  ],
+  "url": "https://github.com/ubittner/Alarmbeleuchtung",
+  "parentRequirements": [],
+  "childRequirements": [],
+  "implemented": [],
+  "prefix": "ABEL"
+}

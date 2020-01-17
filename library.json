@@ -1,0 +1,12 @@
+{
+    "id": "{189E699E-48A4-3414-FC41-F5047C7AA273}",
+    "author": "Ulrich Bittner",
+    "name": "Alarmbeleuchtung",
+    "url": "https://github.com/ubittner/Alarmbeleuchtung",
+    "compatibility": {
+        "version": "5.2"
+    },
+    "version": "4.0",
+    "build": 1,
+    "date": 1579194000
+}
