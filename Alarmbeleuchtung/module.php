@@ -1,5 +1,8 @@
 <?php
 
+/** @noinspection DuplicatedCode */
+/** @noinspection PhpUnused */
+
 /*
  * @module      Alarmbeleuchtung
  *
@@ -12,11 +15,7 @@
  * @license    	CC BY-NC-SA 4.0
  *              https://creativecommons.org/licenses/by-nc-sa/4.0/
  *
- * @version     4.00-1
- * @date        2020-01-16, 18:00, 1579194000
- * @review      2020-01-17, 08:00, 1579194000
- *
- * @see         https://github.com/ubittner/Alarmbeleuchtung/
+ * @see         https://github.com/ubittner/Alarmbeleuchtung
  *
  * @guids       Library
  *              {189E699E-48A4-3414-FC41-F5047C7AA273}
@@ -25,7 +24,6 @@
  *             	{9C804D2B-54AF-690E-EC36-31BF41690EBA}
  */
 
-// Declare
 declare(strict_types=1);
 
 // Include
@@ -35,58 +33,55 @@ class Alarmbeleuchtung extends IPSModule
 {
     // Helper
     use ABEL_alarmLight;
+    use ABEL_backupRestore;
 
     // Constants
     private const DELAY_MILLISECONDS = 250;
+    private const ALARMBELEUCHTUNG_LIBRARY_GUID = '{189E699E-48A4-3414-FC41-F5047C7AA273}';
+    private const ALARMBELEUCHTUNG_MODULE_GUID = '{9C804D2B-54AF-690E-EC36-31BF41690EBA}';
 
     public function Create()
     {
         // Never delete this line!
         parent::Create();
-
-        // Register properties
         $this->RegisterProperties();
-
-        // Create profiles
         $this->CreateProfiles();
-
-        // Register variables
         $this->RegisterVariables();
-
-        // Register attributes
         $this->RegisterAttributes();
-
-        // Register timers
         $this->RegisterTimers();
+    }
+
+    public function Destroy()
+    {
+        // Never delete this line!
+        parent::Destroy();
+        $this->DeleteProfiles();
     }
 
     public function ApplyChanges()
     {
         // Wait until IP-Symcon is started
         $this->RegisterMessage(0, IPS_KERNELSTARTED);
-
         // Never delete this line!
         parent::ApplyChanges();
-
         // Check runlevel
         if (IPS_GetKernelRunlevel() != KR_READY) {
             return;
         }
-
-        // Set options
         $this->SetOptions();
-
-        // Reset attributes
         $this->ResetAttributes();
-
-        // Disable timers
         $this->DisableTimers();
+        $this->CheckMaintenanceMode();
     }
 
     public function MessageSink($TimeStamp, $SenderID, $Message, $Data)
     {
-        // Send debug
-        $this->SendDebug('MessageSink', 'Message from SenderID ' . $SenderID . ' with Message ' . $Message . "\r\n Data: " . print_r($Data, true), 0);
+        $this->SendDebug(__FUNCTION__, $TimeStamp . ', SenderID: ' . $SenderID . ', Message: ' . $Message . ', Data: ' . print_r($Data, true), 0);
+        if (!empty($Data)) {
+            foreach ($Data as $key => $value) {
+                $this->SendDebug(__FUNCTION__, 'Data[' . $key . '] = ' . json_encode($value), 0);
+            }
+        }
         switch ($Message) {
             case IPS_KERNELSTARTED:
                 $this->KernelReady();
@@ -95,21 +90,33 @@ class Alarmbeleuchtung extends IPSModule
         }
     }
 
-    protected function KernelReady()
+    public function GetConfigurationForm()
     {
-        $this->ApplyChanges();
+        $formData = json_decode(file_get_contents(__DIR__ . '/form.json'), true);
+        $moduleInfo = [];
+        $library = IPS_GetLibrary(self::ALARMBELEUCHTUNG_LIBRARY_GUID);
+        $module = IPS_GetModule(self::ALARMBELEUCHTUNG_MODULE_GUID);
+        $moduleInfo['name'] = $module['ModuleName'];
+        $moduleInfo['version'] = $library['Version'] . '-' . $library['Build'];
+        $moduleInfo['date'] = date('d.m.Y', $library['Date']);
+        $moduleInfo['time'] = date('H:i', $library['Date']);
+        $moduleInfo['developer'] = $library['Author'];
+        $formData['elements'][0]['items'][2]['caption'] = "Instanz ID:\t\t" . $this->InstanceID;
+        $formData['elements'][0]['items'][3]['caption'] = "Modul:\t\t\t" . $moduleInfo['name'];
+        $formData['elements'][0]['items'][4]['caption'] = "Version:\t\t\t" . $moduleInfo['version'];
+        $formData['elements'][0]['items'][5]['caption'] = "Datum:\t\t\t" . $moduleInfo['date'];
+        $formData['elements'][0]['items'][6]['caption'] = "Uhrzeit:\t\t\t" . $moduleInfo['time'];
+        $formData['elements'][0]['items'][7]['caption'] = "Entwickler:\t\t" . $moduleInfo['developer'];
+        $formData['elements'][0]['items'][8]['caption'] = "Präfix:\t\t\tABEL";
+        return json_encode($formData);
     }
 
-    public function Destroy()
+    public function ReloadConfiguration()
     {
-        // Never delete this line!
-        parent::Destroy();
-
-        // Delete profiles
-        $this->DeleteProfiles();
+        $this->ReloadForm();
     }
 
-    //#################### Request Action
+    #################### Request Action
 
     public function RequestAction($Ident, $Value)
     {
@@ -120,23 +127,26 @@ class Alarmbeleuchtung extends IPSModule
         }
     }
 
-    //#################### Private
+    #################### Private
+
+    private function KernelReady()
+    {
+        $this->ApplyChanges();
+    }
 
     private function RegisterProperties(): void
     {
+        $this->RegisterPropertyString('Note', '');
+        $this->RegisterPropertyBoolean('MaintenanceMode', false);
         // Visibility
         $this->RegisterPropertyBoolean('EnableAlarmLight', true);
         $this->RegisterPropertyBoolean('EnableAlarmLightState', true);
-
         // Alarm light
         $this->RegisterPropertyString('AlarmLights', '[]');
-
         // Switch on delay
         $this->RegisterPropertyInteger('ExecutionDelay', 0);
-
         // Duty cycle
         $this->RegisterPropertyInteger('DutyCycle', 0);
-
         // Alarm protocol
         $this->RegisterPropertyInteger('AlarmProtocol', 0);
     }
@@ -169,14 +179,13 @@ class Alarmbeleuchtung extends IPSModule
     private function RegisterVariables(): void
     {
         // Alarm light
-        $this->RegisterVariableBoolean('AlarmLight', 'Alarmbeleuchtung', '~Switch', 1);
+        $this->RegisterVariableBoolean('AlarmLight', 'Alarmbeleuchtung', '~Switch', 10);
         $this->EnableAction('AlarmLight');
         $id = $this->GetIDForIdent('AlarmLight');
         IPS_SetIcon($id, 'Bulb');
-
         // Alarm light state
         $profile = 'ABEL.' . $this->InstanceID . '.AlarmLightState';
-        $this->RegisterVariableInteger('AlarmLightState', 'Status', $profile, 2);
+        $this->RegisterVariableInteger('AlarmLightState', 'Status', $profile, 20);
         $this->SetValue('AlarmLightState', 0);
     }
 
@@ -186,7 +195,6 @@ class Alarmbeleuchtung extends IPSModule
         $id = $this->GetIDForIdent('AlarmLight');
         $use = $this->ReadPropertyBoolean('EnableAlarmLight');
         IPS_SetHidden($id, !$use);
-
         // Alarm light state
         $id = $this->GetIDForIdent('AlarmLightState');
         $use = $this->ReadPropertyBoolean('EnableAlarmLightState');
@@ -213,5 +221,20 @@ class Alarmbeleuchtung extends IPSModule
     {
         $this->SetTimerInterval('ActivateAlarmLight', 0);
         $this->SetTimerInterval('DeactivateAlarmLight', 0);
+    }
+
+    private function CheckMaintenanceMode(): bool
+    {
+        $result = false;
+        $status = 102;
+        if ($this->ReadPropertyBoolean('MaintenanceMode')) {
+            $result = true;
+            $status = 104;
+            $this->SendDebug(__FUNCTION__, 'Abbruch, der Wartungsmodus ist aktiv!', 0);
+            $this->LogMessage('ID ' . $this->InstanceID . ', ' . __FUNCTION__ . ', Abbruch, der Wartungsmodus ist aktiv!', KL_WARNING);
+        }
+        $this->SetStatus($status);
+        IPS_SetDisabled($this->InstanceID, $result);
+        return $result;
     }
 }

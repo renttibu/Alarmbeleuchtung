@@ -1,11 +1,12 @@
 <?php
 
-// Declare
+/** @noinspection PhpUndefinedFunctionInspection */
+
 declare(strict_types=1);
 
 trait ABEL_alarmLight
 {
-    //#################### Public functions
+    #################### Public
 
     /**
      * Toggles the alarm light.
@@ -16,6 +17,9 @@ trait ABEL_alarmLight
      */
     public function ToggleAlarmLight(bool $State): void
     {
+        if ($this->CheckMaintenanceMode()) {
+            return;
+        }
         $this->SendDebug(__FUNCTION__, 'Die Methode wurde mit Parameter ' . json_encode($State) . ' aufgerufen.', 0);
         // Check alarm lights
         if (!$this->CheckExecution()) {
@@ -81,6 +85,9 @@ trait ABEL_alarmLight
      */
     public function DeactivateAlarmLight(): void
     {
+        if ($this->CheckMaintenanceMode()) {
+            return;
+        }
         $this->SendDebug(__FUNCTION__, 'Die Methode wurde aufgerufen.', 0);
         // Check alarm lights
         if (!$this->CheckExecution()) {
@@ -143,6 +150,9 @@ trait ABEL_alarmLight
      */
     public function ActivateAlarmLight(): void
     {
+        if ($this->CheckMaintenanceMode()) {
+            return;
+        }
         $this->SendDebug(__FUNCTION__, 'Die Methode wurde aufgerufen.', 0);
         // Check alarm lights
         if (!$this->CheckExecution()) {
@@ -210,7 +220,7 @@ trait ABEL_alarmLight
         }
     }
 
-    //#################### Private
+    #################### Private
 
     /**
      * Checks the execution.
