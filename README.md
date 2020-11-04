@@ -1,7 +1,5 @@
 # Alarmbeleuchtung  
 
-[![Image](imgs/ntub_logo.png)](https://github.com/ubittner/)  
-
 Ein Gemeinschaftsprojekt von Normen Thiel und Ulrich Bittner
 
 [![IP-Symcon is awesome!](https://img.shields.io/badge/IP--Symcon-5.2-blue.svg)](https://www.symcon.de)
@@ -18,4 +16,4 @@ Folgende Module beinhaltet das Alarmbeleuchtung Repository:
     Dieses Modul steuert Alarmbeleuchtungen.
 
 - __Alarmbeleuchtung 1__ ([Dokumentation](Alarmbeleuchtung%201))  
-    Dieses Modul steuert eine Variable für eine Alarmbeleuchtung.
+    Dieses Modul schaltet eine Variable für eine Alarmbeleuchtung.
