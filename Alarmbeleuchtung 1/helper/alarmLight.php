@@ -223,18 +223,18 @@ trait AB1_alarmLight
                 if ($SenderID == $id) {
                     $use = $variable->ID;
                     if ($use) {
-                        $actualValue = intval(GetValue($id));
-                        $this->SendDebug(__FUNCTION__, 'Aktueller Wert: ' . $actualValue, 0);
                         $triggerValueOn = $variable->TriggerValueOn;
                         $this->SendDebug(__FUNCTION__, 'Benötigter Einschaltwert: ' . $triggerValueOn, 0);
+                        $triggerValueOff = $variable->TriggerValueOff;
+                        $this->SendDebug(__FUNCTION__, 'Benötigter Ausschaltwert: ' . $triggerValueOff, 0);
+                        $actualValue = intval(GetValue($id));
+                        $this->SendDebug(__FUNCTION__, 'Aktueller Wert: ' . $actualValue, 0);
                         $trigger = false;
                         if ($actualValue == $triggerValueOn) {
                             $trigger = true;
                             $this->SendDebug(__FUNCTION__, 'Einschalten wurde ausgelöst', 0);
                             $result = $this->ToggleAlarmLight(true);
                         }
-                        $triggerValueOff = $variable->TriggerValueOff;
-                        $this->SendDebug(__FUNCTION__, 'Benötigter Ausschaltwert: ' . $triggerValueOff, 0);
                         if ($actualValue == $triggerValueOff) {
                             $trigger = true;
                             $this->SendDebug(__FUNCTION__, 'Ausschalten wurde ausgelöst', 0);

@@ -2,7 +2,7 @@
 
 Ein Gemeinschaftsprojekt von Normen Thiel und Ulrich Bittner
 
-[![IP-Symcon is awesome!](https://img.shields.io/badge/IP--Symcon-5.2-blue.svg)](https://www.symcon.de)
+[![IP-Symcon is awesome!](https://img.shields.io/badge/IP--Symcon-5.4-blue.svg)](https://www.symcon.de)
 [![Module Version](https://img.shields.io/badge/Module_Version-4.00-blue.svg)]()
 [![Module Build](https://img.shields.io/badge/Module_Build-3-blue.svg)]()
 [![Module Date](https://img.shields.io/badge/Module_Date-20201104-blue.svg)]()  
