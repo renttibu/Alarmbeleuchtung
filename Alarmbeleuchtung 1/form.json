@@ -15,7 +15,7 @@
         },
         {
           "type": "CheckBox",
-          "name": "\nEnableAlarmLight",
+          "name": "EnableAlarmLight",
           "caption": "Alarmbeleuchtung (Aus/An)"
         },
         {
