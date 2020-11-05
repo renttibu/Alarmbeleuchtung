@@ -11,11 +11,11 @@
         },
         {
           "type": "Label",
-          "caption": "\nBitte wählen Sie die zu steuernden Funktionen aus"
+          "caption": " "
         },
         {
           "type": "CheckBox",
-          "name": "EnableAlarmLight",
+          "name": "\nEnableAlarmLight",
           "caption": "Alarmbeleuchtung (Aus/An)"
         },
         {
@@ -74,10 +74,6 @@
       "type": "ExpansionPanel",
       "caption": "Auslöser",
       "items": [
-        {
-          "type": "Label",
-          "caption": "Bitte fügen Sie die auslösenden Variablen hinzu"
-        },
         {
           "type": "List",
           "name": "TriggerVariables",

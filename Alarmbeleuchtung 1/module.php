@@ -122,7 +122,7 @@ class Alarmbeleuchtung1 extends IPSModule
                 if ($id == 0 || @!IPS_ObjectExists($id)) {
                     $rowColor = '#FFC0C0'; //light red
                 }
-                $formData['elements'][3]['items'][1]['values'][] = [
+                $formData['elements'][3]['items'][0]['values'][] = [
                     'Use'                                              => $use,
                     'ID'                                               => $id,
                     'TriggerValueOn'                                   => $variable->TriggerValueOn,
