@@ -11,11 +11,6 @@ class AlarmbeleuchtungValidationTest extends TestCaseSymconValidation
         $this->validateLibrary(__DIR__ . '/..');
     }
 
-    public function testValidateAlarmbeleuchtungModule(): void
-    {
-        $this->validateModule(__DIR__ . '/../Alarmbeleuchtung');
-    }
-
     public function testValidateAlarmbeleuchtung1Module(): void
     {
         $this->validateModule(__DIR__ . '/../Alarmbeleuchtung 1');

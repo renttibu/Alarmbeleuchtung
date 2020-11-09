@@ -1,7 +1,23 @@
 <?php
 
-/** @noinspection PhpUnused */
 /** @noinspection PhpUnusedPrivateMethodInspection */
+/** @noinspection PhpUnused */
+
+/*
+ * @module      Alarmbeleuchtung 1 (Variable)
+ *
+ * @prefix      AB1
+ *
+ * @file        AB1_nightMode.php
+ *
+ * @author      Ulrich Bittner
+ * @copyright   (c) 2020
+ * @license    	CC BY-NC-SA 4.0
+ *              https://creativecommons.org/licenses/by-nc-sa/4.0/
+ *
+ * @see         https://github.com/ubittner/Alarmbeleuchtung
+ *
+ */
 
 declare(strict_types=1);
 
@@ -21,9 +37,8 @@ trait AB1_nightMode
     public function ToggleNightMode(bool $State): bool
     {
         $this->SendDebug(__FUNCTION__, 'Die Methode wurde mit Parameter ' . json_encode($State) . ' aufgerufen (' . microtime(true) . ')', 0);
-        $result = false;
         if ($this->CheckMaintenanceMode()) {
-            return $result;
+            return false;
         }
         $result = true;
         $stateText = 'ausgeschaltet';

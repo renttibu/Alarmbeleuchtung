@@ -27,51 +27,6 @@
     },
     {
       "type": "ExpansionPanel",
-      "caption": "Alarmbeleuchtung",
-      "items": [
-        {
-          "type": "Label",
-          "caption": "Bitte wählen Sie die Variable für die Alarmbeleuchtung aus"
-        },
-        {
-          "type": "SelectVariable",
-          "name": "AlarmLight",
-          "caption": "Alarmbeleuchtung",
-          "width": "600px"
-        },
-        {
-          "type": "NumberSpinner",
-          "name": "AlarmLightSwitchingDelay",
-          "caption": "Schaltverzögerung",
-          "minimum": 0,
-          "suffix": "Millisekunden"
-        }
-      ]
-    },
-
-    {
-      "type": "ExpansionPanel",
-      "caption": "Schaltoptionen",
-      "items": [
-        {
-          "type": "NumberSpinner",
-          "name": "SwitchOnDelay",
-          "caption": "Einschaltverzögerung",
-          "minimum": 0,
-          "suffix": "Sekunden"
-        },
-        {
-          "type": "NumberSpinner",
-          "name": "SwitchOnDuration",
-          "caption": "Einschaltdauer",
-          "minimum": 0,
-          "maximum": 1440,
-          "suffix": "Minuten"
-        }
-      ]
-    },
-    {
-      "type": "ExpansionPanel",
       "caption": "Auslöser",
       "items": [
         {
@@ -105,9 +60,9 @@
               }
             },
             {
-              "caption": "Einschalten",
-              "name": "TriggerValueOn",
-              "width": "200px",
+              "caption": "Auslösender Wert",
+              "name": "TriggerValue",
+              "width": "180px",
               "add": 1,
               "edit": {
                 "type": "Select",
@@ -128,10 +83,10 @@
               }
             },
             {
-              "caption": "Ausschalten",
-              "name": "TriggerValueOff",
-              "width": "200px",
-              "add": -1,
+              "caption": "Aktion",
+              "name": "TriggerAction",
+              "width": "250px",
+              "add": 1,
               "edit": {
                 "type": "Select",
                 "options": [
@@ -140,16 +95,12 @@
                     "value": -1
                   },
                   {
-                    "caption": "0 | false",
+                    "caption": "Alarmbeleuchtung ausschalten",
                     "value": 0
                   },
                   {
-                    "caption": "1 | true",
+                    "caption": "Alarmbeleuchtung einschalten",
                     "value": 1
-                  },
-                  {
-                    "caption": "2",
-                    "value": 2
                   }
                 ]
               }
@@ -160,12 +111,46 @@
     },
     {
       "type": "ExpansionPanel",
-      "caption": "Alarmprotokoll",
+      "caption": "Alarmbeleuchtung",
       "items": [
         {
           "type": "Label",
-          "caption": "Bitte wählen Sie die Instanz für das Alarmprotokoll aus"
+          "caption": "Bitte wählen Sie die zu schaltende Variable für die Alarmbeleuchtung aus"
         },
+        {
+          "type": "SelectVariable",
+          "name": "Variable",
+          "caption": "Variable",
+          "width": "600px"
+        },
+        {
+          "type": "NumberSpinner",
+          "name": "AlarmLightSwitchingDelay",
+          "caption": "Schaltverzögerung",
+          "minimum": 0,
+          "suffix": "Millisekunden"
+        },
+        {
+          "type": "NumberSpinner",
+          "name": "SwitchOnDelay",
+          "caption": "Einschaltverzögerung",
+          "minimum": 0,
+          "suffix": "Sekunden"
+        },
+        {
+          "type": "NumberSpinner",
+          "name": "SwitchOnDuration",
+          "caption": "Einschaltdauer",
+          "minimum": 0,
+          "maximum": 1440,
+          "suffix": "Minuten"
+        }
+      ]
+    },
+    {
+      "type": "ExpansionPanel",
+      "caption": "Alarmprotokoll",
+      "items": [
         {
           "type": "SelectInstance",
           "name": "AlarmProtocol",

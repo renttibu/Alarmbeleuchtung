@@ -1,7 +1,6 @@
 <?php
 
 /** @noinspection PhpUnused */
-/** @noinspection DuplicatedCode */
 
 /*
  * @module      Alarmbeleuchtung 1 (Variable)
@@ -17,11 +16,6 @@
  *
  * @see         https://github.com/ubittner/Alarmbeleuchtung
  *
- * @guids       Library
- *              {189E699E-48A4-3414-FC41-F5047C7AA273}
- *
- *              Alarmbeleuchtung 1
- *             	{DABFABE7-6A9D-C5AE-3474-98C3ECBE55CB}
  */
 
 declare(strict_types=1);
@@ -32,6 +26,7 @@ class Alarmbeleuchtung1 extends IPSModule
 {
     //Helper
     use AB1_alarmLight;
+    use AB1_alarmProtocol;
     use AB1_backupRestore;
     use AB1_nightMode;
 
@@ -64,8 +59,7 @@ class Alarmbeleuchtung1 extends IPSModule
             return;
         }
         $this->SetOptions();
-        $validate = $this->ValidateConfiguration();
-        if (!$validate) {
+        if (!$this->ValidateConfiguration()) {
             return;
         }
         $this->RegisterMessages();
@@ -123,11 +117,11 @@ class Alarmbeleuchtung1 extends IPSModule
                     $rowColor = '#FFC0C0'; //light red
                 }
                 $formData['elements'][3]['items'][0]['values'][] = [
-                    'Use'                                              => $use,
-                    'ID'                                               => $id,
-                    'TriggerValueOn'                                   => $variable->TriggerValueOn,
-                    'TriggerValueOff'                                  => $variable->TriggerValueOff,
-                    'rowColor'                                         => $rowColor];
+                    'Use'           => $use,
+                    'ID'            => $id,
+                    'TriggerValue'  => $variable->TriggerValue,
+                    'TriggerAction' => $variable->TriggerAction,
+                    'rowColor'      => $rowColor];
             }
         }
         //Registered messages
@@ -152,11 +146,11 @@ class Alarmbeleuchtung1 extends IPSModule
                     $messageDescription = 'keine Bezeichnung';
             }
             $formData['actions'][1]['items'][0]['values'][] = [
-                'SenderID'                                              => $senderID,
-                'SenderName'                                            => $senderName,
-                'MessageID'                                             => $messageID,
-                'MessageDescription'                                    => $messageDescription,
-                'rowColor'                                              => $rowColor];
+                'SenderID'              => $senderID,
+                'SenderName'            => $senderName,
+                'MessageID'             => $messageID,
+                'MessageDescription'    => $messageDescription,
+                'rowColor'              => $rowColor];
         }
         return json_encode($formData);
     }
@@ -195,14 +189,13 @@ class Alarmbeleuchtung1 extends IPSModule
         $this->RegisterPropertyBoolean('MaintenanceMode', false);
         $this->RegisterPropertyBoolean('EnableAlarmLight', true);
         $this->RegisterPropertyBoolean('EnableNightMode', true);
-        //Alarm light
-        $this->RegisterPropertyInteger('AlarmLight', 0);
-        $this->RegisterPropertyInteger('AlarmLightSwitchingDelay', 0);
-        //Switching options
-        $this->RegisterPropertyInteger('SwitchOnDelay', 0);
-        $this->RegisterPropertyInteger('SwitchOnDuration', 0);
         //Trigger variables
         $this->RegisterPropertyString('TriggerVariables', '[]');
+        //Alarm light
+        $this->RegisterPropertyInteger('Variable', 0);
+        $this->RegisterPropertyInteger('AlarmLightSwitchingDelay', 0);
+        $this->RegisterPropertyInteger('SwitchOnDelay', 0);
+        $this->RegisterPropertyInteger('SwitchOnDuration', 0);
         // Alarm protocol
         $this->RegisterPropertyInteger('AlarmProtocol', 0);
         //Night mode
