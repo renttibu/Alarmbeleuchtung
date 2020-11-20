@@ -42,7 +42,7 @@ trait AB1_alarmLight
         if ($this->CheckMaintenanceMode()) {
             return false;
         }
-        if (!$this->CheckVariable()) {
+        if (!$this->CheckSwitchingVariable()) {
             return false;
         }
         $result = true;
@@ -62,7 +62,11 @@ trait AB1_alarmLight
                 IPS_Sleep(self::DELAY_MILLISECONDS);
                 $response = @RequestAction($id, false);
                 if (!$response) {
-                    $result = false;
+                    IPS_Sleep(self::DELAY_MILLISECONDS * 2);
+                    $response = @RequestAction($id, false);
+                    if (!$response) {
+                        $result = false;
+                    }
                 }
             }
             //Semaphore leave
@@ -133,13 +137,23 @@ trait AB1_alarmLight
     {
         $this->SendDebug(__FUNCTION__, 'Die Methode wird ausgeführt (' . microtime(true) . ')', 0);
         $this->SetTimerInterval('ActivateAlarmLight', 0);
+        if (!$this->CheckSwitchingVariable()) {
+            return false;
+        }
         if ($this->CheckMaintenanceMode()) {
             return false;
         }
         if ($this->CheckNightMode()) {
             return false;
         }
-        if (!$this->CheckVariable()) {
+        return $this->TriggerAlarmLight();
+    }
+
+    public function TriggerAlarmLight(): bool
+    {
+        $this->SendDebug(__FUNCTION__, 'Die Methode wird ausgeführt (' . microtime(true) . ')', 0);
+        $this->SetTimerInterval('ActivateAlarmLight', 0);
+        if (!$this->CheckSwitchingVariable()) {
             return false;
         }
         IPS_Sleep($this->ReadPropertyInteger('AlarmLightSwitchingDelay'));
@@ -222,10 +236,7 @@ trait AB1_alarmLight
     public function CheckTrigger(int $SenderID): bool
     {
         $this->SendDebug(__FUNCTION__, 'Die Methode wurde vom Sender ' . $SenderID . ' aufgerufen (' . microtime(true) . ')', 0);
-        if ($this->CheckMaintenanceMode()) {
-            return false;
-        }
-        if ($this->CheckNightMode()) {
+        if (!$this->CheckSwitchingVariable()) {
             return false;
         }
         $result = true;
@@ -250,7 +261,21 @@ trait AB1_alarmLight
 
                                 case 1:
                                     $this->SendDebug(__FUNCTION__, 'Aktion: Alarmbeleuchtung einschalten', 0);
+                                    if ($this->CheckMaintenanceMode()) {
+                                        return false;
+                                    }
+                                    if ($this->CheckNightMode()) {
+                                        return false;
+                                    }
                                     $result = $this->ToggleAlarmLight(true);
+                                    break;
+
+                                case 2:
+                                    $this->SendDebug(__FUNCTION__, 'Aktion: Panikbeleuchtung', 0);
+                                    if ($this->CheckMaintenanceMode()) {
+                                        return false;
+                                    }
+                                    $result = $this->TriggerAlarmLight();
                                     break;
 
                                 default:
@@ -275,7 +300,7 @@ trait AB1_alarmLight
      * false    = no alarm light
      * true     = ok
      */
-    private function CheckVariable(): bool
+    private function CheckSwitchingVariable(): bool
     {
         $id = $this->ReadPropertyInteger('Variable');
         if ($id == 0 || @!IPS_ObjectExists($id)) {

@@ -78,6 +78,10 @@
                   {
                     "caption": "2",
                     "value": 2
+                  },
+                  {
+                    "caption": "3",
+                    "value": 3
                   }
                 ]
               }
@@ -91,16 +95,16 @@
                 "type": "Select",
                 "options": [
                   {
-                    "caption": "Keine Aktion",
-                    "value": -1
-                  },
-                  {
                     "caption": "Alarmbeleuchtung ausschalten",
                     "value": 0
                   },
                   {
                     "caption": "Alarmbeleuchtung einschalten",
                     "value": 1
+                  },
+                  {
+                    "caption": "Panikbeleuchtung",
+                    "value": 2
                   }
                 ]
               }
@@ -152,10 +156,10 @@
       "caption": "Alarmprotokoll",
       "items": [
         {
-          "type": "SelectInstance",
+          "type": "SelectModule",
           "name": "AlarmProtocol",
           "caption": "Alarmprotokoll",
-          "width": "600px"
+          "moduleID": "{33EF9DF1-C8D7-01E7-F168-0A1927F1C61F}"
         }
       ]
     },
@@ -281,10 +285,19 @@
     },
     {
       "type": "ExpansionPanel",
-      "caption": "Testbereich",
+      "caption": "Schaltfunktionen",
       "items": [
         {
           "type": "TestCenter"
+        },
+        {
+          "type": "Label",
+          "caption": " "
+        },
+        {
+          "type": "Button",
+          "caption": "Panikbeleuchtung einschalten",
+          "onClick": "AB1_TriggerAlarmLight($id);"
         }
       ]
     }
@@ -293,22 +306,22 @@
     {
       "code": 101,
       "icon": "active",
-      "caption": "Alarmbeleuchtung wird erstellt"
+      "caption": "Alarmbeleuchtung 1 (Variable) wird erstellt"
     },
     {
       "code": 102,
       "icon": "active",
-      "caption": "Alarmbeleuchtung ist aktiv"
+      "caption": "Alarmbeleuchtung 1 (Variable) ist aktiv"
     },
     {
       "code": 103,
       "icon": "active",
-      "caption": "Alarmbeleuchtung wird gelöscht"
+      "caption": "Alarmbeleuchtung 1 (Variable) wird gelöscht"
     },
     {
       "code": 104,
       "icon": "inactive",
-      "caption": "Alarmbeleuchtung ist inaktiv"
+      "caption": "Alarmbeleuchtung 1 (Variable) ist inaktiv"
     },
     {
       "code": 200,
