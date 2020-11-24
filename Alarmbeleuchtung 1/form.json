@@ -306,22 +306,22 @@
     {
       "code": 101,
       "icon": "active",
-      "caption": "Alarmbeleuchtung 1 (Variable) wird erstellt"
+      "caption": "Alarmbeleuchtung (Variable) wird erstellt"
     },
     {
       "code": 102,
       "icon": "active",
-      "caption": "Alarmbeleuchtung 1 (Variable) ist aktiv"
+      "caption": "Alarmbeleuchtung (Variable) ist aktiv"
     },
     {
       "code": 103,
       "icon": "active",
-      "caption": "Alarmbeleuchtung 1 (Variable) wird gelöscht"
+      "caption": "Alarmbeleuchtung (Variable) wird gelöscht"
     },
     {
       "code": 104,
       "icon": "inactive",
-      "caption": "Alarmbeleuchtung 1 (Variable) ist inaktiv"
+      "caption": "Alarmbeleuchtung (Variable) ist inaktiv"
     },
     {
       "code": 200,
