@@ -3,22 +3,6 @@
 /** @noinspection PhpUnusedPrivateMethodInspection */
 /** @noinspection PhpUndefinedFunctionInspection */
 
-/*
- * @module      Alarmbeleuchtung 1 (Variable)
- *
- * @prefix      AB1
- *
- * @file        AB1_alarmProtocol.php
- *
- * @author      Ulrich Bittner
- * @copyright   (c) 2020
- * @license    	CC BY-NC-SA 4.0
- *              https://creativecommons.org/licenses/by-nc-sa/4.0/
- *
- * @see         https://github.com/ubittner/Alarmbeleuchtung
- *
- */
-
 declare(strict_types=1);
 
 trait AB1_alarmProtocol
@@ -37,7 +21,7 @@ trait AB1_alarmProtocol
             return;
         }
         $id = $this->ReadPropertyInteger('AlarmProtocol');
-        if ($id == 0 && !@IPS_ObjectExists($id)) {
+        if ($id == 0 || !@IPS_ObjectExists($id)) {
             return;
         }
         $timestamp = date('d.m.Y, H:i:s');

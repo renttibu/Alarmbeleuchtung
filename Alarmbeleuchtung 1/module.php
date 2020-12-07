@@ -91,10 +91,12 @@ class Alarmbeleuchtung1 extends IPSModule
                     return;
                 }
                 //Trigger action
+                $valueChanged = 'false';
                 if ($Data[1]) {
-                    $scriptText = 'AB1_CheckTrigger(' . $this->InstanceID . ', ' . $SenderID . ');';
-                    IPS_RunScriptText($scriptText);
+                    $valueChanged = 'true';
                 }
+                $scriptText = 'AB1_CheckTrigger(' . $this->InstanceID . ', ' . $SenderID . ', ' . $valueChanged . ');';
+                IPS_RunScriptText($scriptText);
                 break;
 
         }
