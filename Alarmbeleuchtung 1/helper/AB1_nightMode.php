@@ -118,6 +118,9 @@ trait AB1_nightMode
     private function CheckAutomaticNightMode(): void
     {
         $this->SendDebug(__FUNCTION__, 'Die Methode wird ausgeführt (' . microtime(true) . ')', 0);
+        if (!$this->ReadPropertyInteger('UseAutomaticNightMode')) {
+            return;
+        }
         $start = $this->GetTimerInterval('StartNightMode');
         $stop = $this->GetTimerInterval('StopNightMode');
         if ($start > $stop) {
