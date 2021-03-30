@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * @author      Ulrich Bittner
+ * @copyright   (c) 2020, 2021
+ * @license    	CC BY-NC-SA 4.0
+ * @see         https://github.com/ubittner/Alarmbeleuchtung/tree/master/Alarmbeleuchtung%201
+ */
+
 /** @noinspection PhpUnusedPrivateMethodInspection */
 /** @noinspection PhpUndefinedFunctionInspection */
 
@@ -9,14 +16,9 @@ trait AB1_alarmProtocol
 {
     #################### Private
 
-    /**
-     * Updates the alarm protocol.
-     *
-     * @param string $Message
-     */
     private function UpdateAlarmProtocol(string $Message): void
     {
-        $this->SendDebug(__FUNCTION__, 'Die Methode wird ausgeführt (' . microtime(true) . ')', 0);
+        $this->SendDebug(__FUNCTION__, 'Die Methode wird ausgeführt.', 0);
         if ($this->CheckMaintenanceMode()) {
             return;
         }
