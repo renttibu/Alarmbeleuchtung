@@ -7,6 +7,7 @@
  * @see         https://github.com/ubittner/Alarmbeleuchtung/tree/master/Alarmbeleuchtung
  */
 
+/** @noinspection DuplicatedCode */
 /** @noinspection PhpUnused */
 
 declare(strict_types=1);

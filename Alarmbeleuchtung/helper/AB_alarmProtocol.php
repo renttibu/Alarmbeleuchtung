@@ -8,7 +8,6 @@
  */
 
 /** @noinspection PhpUnusedPrivateMethodInspection */
-/** @noinspection PhpUndefinedFunctionInspection */
 
 declare(strict_types=1);
 
