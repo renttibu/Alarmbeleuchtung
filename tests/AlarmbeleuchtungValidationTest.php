@@ -6,13 +6,13 @@ include_once __DIR__ . '/stubs/Validator.php';
 
 class AlarmbeleuchtungValidationTest extends TestCaseSymconValidation
 {
-    public function testValidateAlarmbeleuchtung(): void
+    public function testValidateLibrary_Alarmbeleuchtung(): void
     {
         $this->validateLibrary(__DIR__ . '/..');
     }
 
-    public function testValidateAlarmbeleuchtung1Module(): void
+    public function testValidateModule_Alarmbeleuchtung(): void
     {
-        $this->validateModule(__DIR__ . '/../Alarmbeleuchtung 1');
+        $this->validateModule(__DIR__ . '/../Alarmbeleuchtung');
     }
 }

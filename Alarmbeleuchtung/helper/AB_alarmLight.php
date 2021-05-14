@@ -4,14 +4,14 @@
  * @author      Ulrich Bittner
  * @copyright   (c) 2020, 2021
  * @license    	CC BY-NC-SA 4.0
- * @see         https://github.com/ubittner/Alarmbeleuchtung/tree/master/Alarmbeleuchtung%201
+ * @see         https://github.com/ubittner/Alarmbeleuchtung/tree/master/Alarmbeleuchtung
  */
 
 /** @noinspection PhpUnused */
 
 declare(strict_types=1);
 
-trait AB1_alarmLight
+trait AB_alarmLight
 {
     public function ToggleAlarmLight(bool $State): bool
     {
@@ -105,7 +105,6 @@ trait AB1_alarmLight
 
     public function ActivateAlarmLight(): bool
     {
-        $this->SendDebug(__FUNCTION__, 'Die Methode wird ausgeführt.', 0);
         $this->SetTimerInterval('ActivateAlarmLight', 0);
         if (!$this->CheckSwitchingVariable()) {
             return false;
@@ -121,7 +120,6 @@ trait AB1_alarmLight
 
     public function TriggerAlarmLight(): bool
     {
-        $this->SendDebug(__FUNCTION__, 'Die Methode wird ausgeführt.', 0);
         $this->SetTimerInterval('ActivateAlarmLight', 0);
         if (!$this->CheckSwitchingVariable()) {
             return false;
@@ -175,7 +173,6 @@ trait AB1_alarmLight
 
     public function DeactivateAlarmLight(): bool
     {
-        $this->SendDebug(__FUNCTION__, 'Die Methode wird ausgeführt.', 0);
         $this->SetTimerInterval('DeactivateAlarmLight', 0);
         if ($this->CheckMaintenanceMode()) {
             return false;
@@ -185,7 +182,6 @@ trait AB1_alarmLight
 
     public function CheckTriggerVariable(int $SenderID, bool $ValueChanged): bool
     {
-        $this->SendDebug(__FUNCTION__, 'Die Methode wird ausgeführt.', 0);
         $this->SendDebug(__FUNCTION__, 'Sender: ' . $SenderID . ', Wert hat sich geändert: ' . json_encode($ValueChanged), 0);
         if (!$this->CheckSwitchingVariable()) {
             return false;
@@ -202,8 +198,8 @@ trait AB1_alarmLight
                 if ($var->Use) {
                     $this->SendDebug(__FUNCTION__, 'Variable: ' . $id . ' ist aktiviert', 0);
                     $type = IPS_GetVariable($id)['VariableType'];
-                    $value = $var->Value;
-                    switch ($var->Trigger) {
+                    $value = $var->TriggerValue;
+                    switch ($var->TriggerType) {
                         case 0: # on change (bool, integer, float, string)
                             $this->SendDebug(__FUNCTION__, 'Bei Änderung (bool, integer, float, string)', 0);
                             if ($ValueChanged) {
@@ -461,7 +457,6 @@ trait AB1_alarmLight
 
     private function CheckSwitchingVariable(): bool
     {
-        $this->SendDebug(__FUNCTION__, 'Die Methode wird ausgeführt.', 0);
         $id = $this->ReadPropertyInteger('Variable');
         if ($id == 0 || @!IPS_ObjectExists($id)) {
             $text = 'Abbruch, es ist kein Variable ausgewählt!';

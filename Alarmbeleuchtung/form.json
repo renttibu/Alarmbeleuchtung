@@ -29,34 +29,6 @@
       "type": "ExpansionPanel",
       "caption": "Alarmbeleuchtung",
       "items": [
-        {
-          "type": "SelectVariable",
-          "name": "Variable",
-          "caption": "Variable",
-          "width": "600px"
-        },
-        {
-          "type": "NumberSpinner",
-          "name": "AlarmLightSwitchingDelay",
-          "caption": "Schaltverzögerung",
-          "minimum": 0,
-          "suffix": "Millisekunden"
-        },
-        {
-          "type": "NumberSpinner",
-          "name": "SwitchOnDelay",
-          "caption": "Einschaltverzögerung",
-          "minimum": 0,
-          "suffix": "Sekunden"
-        },
-        {
-          "type": "NumberSpinner",
-          "name": "SwitchOnDuration",
-          "caption": "Einschaltdauer",
-          "minimum": 0,
-          "maximum": 1440,
-          "suffix": "Minuten"
-        }
       ]
     },
     {
@@ -87,16 +59,27 @@
             {
               "caption": "Auslösende Variable",
               "name": "ID",
-              "width": "600px",
+              "width": "auto",
               "add": 0,
-              "onClick": "echo 'ID ' . $TriggerVariables['ID'];",
+              "onClick": "AB_EnableTriggerVariableConfigurationButton($id, $TriggerVariables['ID']);",
               "edit": {
                 "type": "SelectVariable"
               }
             },
             {
+              "caption": "Info",
+              "name": "Info",
+              "width": "160px",
+              "add": "",
+              "visible": false,
+              "edit": {
+                "type": "Button",
+                "onClick": "AB_ShowVariableDetails($id, $ID);"
+              }
+            },
+            {
               "caption": "Auslöseart",
-              "name": "Trigger",
+              "name": "TriggerType",
               "width": "280px",
               "add": 6,
               "edit": {
@@ -139,7 +122,7 @@
             },
             {
               "caption": "Auslösewert",
-              "name": "Value",
+              "name": "TriggerValue",
               "width": "160px",
               "add": "",
               "edit": {
@@ -170,6 +153,14 @@
               }
             }
           ]
+        },
+        {
+          "type": "OpenObjectButton",
+          "caption": "Bearbeiten",
+          "name": "TriggerVariableConfigurationButton",
+          "enabled": false,
+          "visible": false,
+          "objectID": 0
         }
       ]
     },
@@ -177,13 +168,6 @@
       "type": "ExpansionPanel",
       "caption": "Alarmprotokoll",
       "items": [
-        {
-          "type": "SelectModule",
-          "name": "AlarmProtocol",
-          "caption": "Alarmprotokoll",
-          "moduleID": "{33EF9DF1-C8D7-01E7-F168-0A1927F1C61F}",
-          "width": "600px"
-        }
       ]
     },
     {
@@ -216,7 +200,7 @@
         {
           "type": "Button",
           "caption": "Neu einlesen",
-          "onClick": "AB1_ReloadConfiguration($id);"
+          "onClick": "AB_ReloadConfiguration($id);"
         },
         {
           "type": "RowLayout",
@@ -234,7 +218,7 @@
             {
               "type": "Button",
               "caption": "Sichern",
-              "onClick": "AB1_CreateBackup($id, $BackupCategory);"
+              "onClick": "AB_CreateBackup($id, $BackupCategory);"
             }
           ]
         },
@@ -260,7 +244,7 @@
                   {
                     "type": "Button",
                     "caption": "Wiederherstellen",
-                    "onClick": "AB1_RestoreConfiguration($id, $ConfigurationScript);"
+                    "onClick": "AB_RestoreConfiguration($id, $ConfigurationScript);"
                   }
                 ]
               }
@@ -290,7 +274,7 @@
             {
               "caption": "Sender Name",
               "name": "SenderName",
-              "width": "450px"
+              "width": "auto"
             },
             {
               "caption": "Nachrichten ID",
@@ -320,36 +304,9 @@
         {
           "type": "Button",
           "caption": "Panikbeleuchtung einschalten",
-          "onClick": "AB1_TriggerAlarmLight($id);"
+          "onClick": "AB_TriggerAlarmLight($id);"
         }
       ]
-    }
-  ],
-  "status": [
-    {
-      "code": 101,
-      "icon": "active",
-      "caption": "Alarmbeleuchtung (Variable) wird erstellt"
-    },
-    {
-      "code": 102,
-      "icon": "active",
-      "caption": "Alarmbeleuchtung (Variable) ist aktiv"
-    },
-    {
-      "code": 103,
-      "icon": "active",
-      "caption": "Alarmbeleuchtung (Variable) wird gelöscht"
-    },
-    {
-      "code": 104,
-      "icon": "inactive",
-      "caption": "Alarmbeleuchtung (Variable) ist inaktiv"
-    },
-    {
-      "code": 200,
-      "icon": "inactive",
-      "caption": "Es ist Fehler aufgetreten, weitere Informationen unter Meldungen, im Log oder Debug!"
     }
   ]
 }

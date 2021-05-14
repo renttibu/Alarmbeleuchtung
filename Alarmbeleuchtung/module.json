@@ -1,14 +1,14 @@
 {
   "id": "{DABFABE7-6A9D-C5AE-3474-98C3ECBE55CB}",
-  "name": "Alarmbeleuchtung 1",
+  "name": "Alarmbeleuchtung",
   "type": 3,
   "vendor": "Ulrich Bittner",
   "aliases": [
-    "Alarmbeleuchtung (Variable)"
+    "Alarmbeleuchtung"
   ],
-  "url": "https://github.com/ubittner/Alarmbeleuchtung",
+  "url": "https://github.com/ubittner/Alarmbeleuchtung/tree/master/Alarmbeleuchtung",
   "parentRequirements": [],
   "childRequirements": [],
   "implemented": [],
-  "prefix": "AB1"
+  "prefix": "AB"
 }
